@@ -1,4 +1,6 @@
 export default async function handler(req, res) {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+
     const universeId = 76207848507298;
 
     try {
@@ -9,14 +11,14 @@ export default async function handler(req, res) {
         const data = await response.json();
 
         if (!data.data || !data.data[0]) {
-            return res.status(500).json({ error: "Invalid response from Roblox" });
+            return res.status(500).json({ error: "Invalid Roblox response" });
         }
 
-        res.status(200).json({
+        return res.status(200).json({
             likes: data.data[0].upVotes
         });
 
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        return res.status(500).json({ error: err.message });
     }
 }
